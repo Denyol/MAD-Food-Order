@@ -17,20 +17,20 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DatabaseSchema.RestaurantTable.NAME + "(" +
                 DatabaseSchema.RestaurantTable.Cols.ID + " INTEGER PRIMARY KEY," +
-                DatabaseSchema.RestaurantTable.Cols.NAME + " TEXT NOT NULL);");
+                DatabaseSchema.RestaurantTable.Cols.NAME + " TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE " + DatabaseSchema.UsersTable.NAME + "(" +
                 DatabaseSchema.UsersTable.Cols.ID + " INTEGER PRIMARY KEY," +
                 DatabaseSchema.UsersTable.Cols.FIRST_NAME + " TEXT," +
                 DatabaseSchema.UsersTable.Cols.LAST_NAME + " TEXT," +
                 DatabaseSchema.UsersTable.Cols.EMAIL + " TEXT NOT NULL," +
-                DatabaseSchema.UsersTable.Cols.PASSWORD + " TEXT NOT NULL);");
+                DatabaseSchema.UsersTable.Cols.PASSWORD + " TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE " + DatabaseSchema.ResourceTable.NAME + "(" +
                 DatabaseSchema.ResourceTable.Cols.REF + " TEXT PRIMARY KEY," +
                 DatabaseSchema.ResourceTable.Cols.RESTAURANT + " INTEGER NOT NULL," +
                 "FOREIGN KEY(" + DatabaseSchema.ResourceTable.Cols.RESTAURANT + ") REFERENCES " +
-                DatabaseSchema.RestaurantTable.NAME + "(" + DatabaseSchema.RestaurantTable.Cols.ID + "));");
+                DatabaseSchema.RestaurantTable.NAME + "(" + DatabaseSchema.RestaurantTable.Cols.ID + "))");
 
         db.execSQL("CREATE TABLE " + DatabaseSchema.FoodTable.NAME + "(" +
                 DatabaseSchema.FoodTable.Cols.ID + " INTEGER PRIMARY KEY," +
@@ -41,15 +41,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + DatabaseSchema.FoodTable.Cols.RESOURCE + ") REFERENCES " +
                 DatabaseSchema.ResourceTable.NAME + "(" + DatabaseSchema.ResourceTable.Cols.REF + "), " +
                 "FOREIGN KEY(" + DatabaseSchema.FoodTable.Cols.RESTAURANT + ") REFERENCES " +
-                DatabaseSchema.RestaurantTable.NAME + "(" + DatabaseSchema.RestaurantTable.Cols.ID + "));");
+                DatabaseSchema.RestaurantTable.NAME + "(" + DatabaseSchema.RestaurantTable.Cols.ID + "))");
 
-        db.execSQL("CREATE TABLE " + DatabaseSchema.OrderTable.NAME + "(" +
+        db.execSQL("CREATE TABLE '" + DatabaseSchema.OrderTable.NAME + "'(" +
                 DatabaseSchema.OrderTable.Cols.ID + " INTEGER PRIMARY KEY," +
                 DatabaseSchema.OrderTable.Cols.USER + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.ITEM_CODE + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.QUANTITY + " INTEGER DEFAULT 0," +
                 "FOREIGN KEY(" + DatabaseSchema.OrderTable.Cols.ITEM_CODE + ") REFERENCES " +
-                DatabaseSchema.FoodTable.NAME + "(" + DatabaseSchema.FoodTable.Cols.ID + "));");
+                DatabaseSchema.FoodTable.NAME + "(" + DatabaseSchema.FoodTable.Cols.ID + "))");
     }
 
     @Override
