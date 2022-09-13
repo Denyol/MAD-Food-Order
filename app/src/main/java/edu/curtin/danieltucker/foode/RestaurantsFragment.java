@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,13 +14,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import edu.curtin.danieltucker.foode.model.FoodeData;
 import edu.curtin.danieltucker.foode.model.Restaurant;
-import edu.curtin.danieltucker.foode.model.RestaurantAdapter;
+import edu.curtin.danieltucker.foode.model.DBAdapter;
 
 public class RestaurantsFragment extends Fragment {
-
-    private FoodeData data;
 
     public RestaurantsFragment() {
         // Required empty public constructor
@@ -47,8 +43,8 @@ public class RestaurantsFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.restaurantsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<Restaurant> restaurants = new RestaurantAdapter(requireContext()).getRestaurants();
-        recyclerView.setAdapter(new RestaurantListAdapter(restaurants, getContext()));
+        ArrayList<Restaurant> restaurants = new DBAdapter(requireContext()).getRestaurants();
+        recyclerView.setAdapter(new RestaurantListAdapter(restaurants, getContext(), this));
 
         return v;
     }

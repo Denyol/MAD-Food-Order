@@ -2,23 +2,23 @@
   "restaurants": [
     {
       "name": "Taco Store",
-      "banner": "taco_store"
+      "banner": "taco_store",
+      "items": [
+        {
+          "desc": "Vege Burrito",
+          "res": "burrito",
+          "price": 9.99
+        },
+        {
+          "desc": "Fish Taco",
+          "res": "fish_taco",
+          "price": 5.99
+        }
+      ]
     },
     {
       "name": "Hungry Mike's",
       "banner": "hungry_mike"
-    }
-  ],
-  "items": [
-    {
-      "desc": "Vege Burrito",
-      "res": "burrito.jpg",
-      "price": 9.99
-    },
-    {
-      "desc": "Fish Taco",
-      "res": "taco.jpg",
-      "price": 5.99
     }
   ]
 }

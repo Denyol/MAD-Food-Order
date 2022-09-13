@@ -8,18 +8,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 
+import edu.curtin.danieltucker.foode.model.DataViewModel;
 import edu.curtin.danieltucker.foode.model.Restaurant;
 
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
 
     private ArrayList<Restaurant> restaurants;
     private final Context context;
+    private final FragmentManager fm;
+    private DataViewModel dataViewModel;
 
     public class RestaurantViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,16 +44,27 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
             this.restaurant = restaurant;
 
             name.setText(restaurant.getName());
-            int res = context.getResources().getIdentifier(restaurant.getResourceId(), "drawable", context.getPackageName());
+            int res = context.getResources().getIdentifier(restaurant.getBanner(), "drawable", context.getPackageName());
             this.image.setImageResource(res);
+
+            itemView.setOnClickListener(v -> {
+                fm.beginTransaction().replace(R.id.mainFrameLayout, MenuFragment.class, null)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null)
+                        .commit();
+                dataViewModel.setCurrentRestSelected(restaurant);
+            });
 
             Log.d("ListAdapter", "Binding " + restaurant.getName() + " Res " + res);
         }
     }
 
-    public RestaurantListAdapter(ArrayList<Restaurant> restaurants, Context context) {
+    public RestaurantListAdapter(ArrayList<Restaurant> restaurants, Context context, Fragment fragment) {
         this.restaurants = restaurants;
         this.context = context;
+        this.fm = fragment.getParentFragmentManager();
+
+        dataViewModel = new ViewModelProvider(fragment.requireActivity()).get(DataViewModel.class);
 
         Log.d("ListAdapter", "Created data size " + restaurants.size());
     }
@@ -58,6 +75,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         LayoutInflater li = LayoutInflater.from(parent.getContext());
 
         View restaurantView = li.inflate(R.layout.restaurant_item_view, parent, false);
+
 
         return new RestaurantViewHolder(restaurantView);
     }

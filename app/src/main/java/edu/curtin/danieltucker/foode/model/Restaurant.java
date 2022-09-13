@@ -1,15 +1,19 @@
 package edu.curtin.danieltucker.foode.model;
 
+import androidx.annotation.NonNull;
+
+import java.util.Objects;
+
 public class Restaurant {
 
     private final int storeCode;
     private final String name;
-    private final String resourceId;
+    private final String banner;
 
-    public Restaurant(int storeCode, String name, String resourceId) {
+    public Restaurant(int storeCode, @NonNull String name, @NonNull String banner) {
         this.storeCode = storeCode;
         this.name = name;
-        this.resourceId = resourceId;
+        this.banner = banner;
     }
 
     public int getStoreCode() {
@@ -20,7 +24,20 @@ public class Restaurant {
         return name;
     }
 
-    public String getResourceId() {
-        return resourceId;
+    public String getBanner() {
+        return banner;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return storeCode == that.storeCode && name.equals(that.name) && banner.equals(that.banner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(storeCode, name, banner);
     }
 }

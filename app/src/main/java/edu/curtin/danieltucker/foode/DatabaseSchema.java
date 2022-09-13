@@ -19,15 +19,7 @@ public class DatabaseSchema {
         public static final class Cols {
             public static final String ID = "storeCode";
             public static final String NAME = "name";
-        }
-    }
-
-    public static class ResourceTable {
-        public static final String NAME = "resource";
-
-        public static final class Cols {
-            public static final String REF = "ref";
-            public static final String RESTAURANT = "restaurant";
+            public static final String BANNER = "banner";
         }
     }
 
@@ -36,7 +28,7 @@ public class DatabaseSchema {
 
         public static final class Cols {
             public static final String ID = "itemCode";
-            public static final String RESTAURANT = "storeCode";
+            public static final String RESTAURANT = "restaurant";
             public static final String RESOURCE = "resource";
             public static final String PRICE = "price";
             public static final String DESC = "desc";
