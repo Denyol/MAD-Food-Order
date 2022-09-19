@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/foodItemImage"
+        android:id="@+id/basketViewImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginHorizontal="8dp"
@@ -25,7 +25,7 @@
         android:layout_marginStart="14dp"
         android:text="Food description."
         app:layout_constraintBottom_toTopOf="@id/basketViewItemPrice"
-        app:layout_constraintStart_toEndOf="@+id/foodItemImage"
+        app:layout_constraintStart_toEndOf="@+id/basketViewImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_marginBottom="8dp"
         android:text="$0.00"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/foodItemImage" />
+        app:layout_constraintStart_toEndOf="@+id/basketViewImage" />
 
     <TextView
         android:id="@+id/basketViewItemCount"

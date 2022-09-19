@@ -59,50 +59,10 @@ public class MenuFragment extends Fragment {
 
     public void createAddToBasketPopup(MenuItem item) {
         LayoutInflater li = LayoutInflater.from(getContext());
-
         View addToBasketWindow = li.inflate(R.layout.add_to_basket_view, null);
 
-        PopupWindow pw = new PopupWindow(addToBasketWindow, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        pw.setFocusable(true);
-        pw.setElevation(20.0f);
-
-        // Get view elements
-        TextView price = addToBasketWindow.findViewById(R.id.basketPriceText);
-        TextView itemName = addToBasketWindow.findViewById(R.id.basketItemText);
-        TextView itemCount = addToBasketWindow.findViewById(R.id.basketItemCount);
-        Button decrease = addToBasketWindow.findViewById(R.id.basketMinusButton);
-        Button increase = addToBasketWindow.findViewById(R.id.basketPlusButton);
-        Button addToCart = addToBasketWindow.findViewById(R.id.basketAddButton);
-
-        // Set button listeners
-        decrease.setOnClickListener(v -> changeCountText(itemCount, false));
-        increase.setOnClickListener(v -> changeCountText(itemCount, true));
-
-        addToCart.setOnClickListener(v -> {
-            basketViewModel.getBasket().getValue().put(item, Integer.parseInt(itemCount.getText().toString()));
-            basketViewModel.notifyBasketChanged();
-            basketViewModel.setRestaurant(item.getRestaurant());
-        });
-
-        price.setText(Float.toString(item.getPrice()));
-        itemName.setText(item.getDescription());
-
-        pw.showAtLocation(this.getView(), Gravity.BOTTOM, 0, 0);
+        AddToBasketPopupWindow pw = new AddToBasketPopupWindow(addToBasketWindow, item, basketViewModel);
+        pw.createAddToBasketPopup(getView());
     }
 
-    private void changeCountText(TextView countView, boolean increase) {
-        try {
-            int count = Integer.parseInt(countView.getText().toString());
-
-            if (count > 0 && !increase) {
-                count--;
-                countView.setText(String.format("%d", count));
-            } else if (increase) {
-                count++;
-                countView.setText(String.format("%d", count));
-            }
-        } catch (NumberFormatException e) {
-            Log.w("MenuFragment", e);
-        }
-    }
 }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import edu.curtin.danieltucker.foode.model.BasketViewModel;
 import edu.curtin.danieltucker.foode.model.Restaurant;
@@ -20,6 +21,8 @@ import edu.curtin.danieltucker.foode.model.Restaurant;
 public class BasketFragment extends Fragment {
 
     private BasketViewModel basket;
+    private TextView basketTitle;
+    private TextView total;
 
     public BasketFragment() {
         // Required empty public constructor
@@ -29,7 +32,7 @@ public class BasketFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        basket = new ViewModelProvider(getActivity()).get(BasketViewModel.class);
+        basket = new ViewModelProvider(requireActivity()).get(BasketViewModel.class);
     }
 
     @Override
@@ -41,18 +44,31 @@ public class BasketFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.basketRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        BasketListAdapter basketListAdapter = new BasketListAdapter(this);
+        BasketListAdapter basketListAdapter = new BasketListAdapter(this, requireContext());
         basketListAdapter.setObserve(this.getViewLifecycleOwner());
+
+        basketTitle = view.findViewById(R.id.basketStoreText);
+        total = view.findViewById(R.id.basketTotalText);
 
         rv.setAdapter(basketListAdapter);
 
-        basket.getRestaurant().observe(getViewLifecycleOwner(), new Observer<Restaurant>() {
-            @Override
-            public void onChanged(Restaurant restaurant) {
-                Log.d("Basket Fragment", "Restaurant changed");
-            }
-        });
+        basket.getBasketData().observe(getViewLifecycleOwner(), e -> changeOccur(basketListAdapter));
+        basket.getRestaurantData().observe(getViewLifecycleOwner(), e -> setTitleAndTotal());
+
+        // Initialise title and checkout button.
+        setTitleAndTotal();
 
         return view;
+    }
+
+    private void setTitleAndTotal() {
+        String name = basket.getRestaurantName();
+        basketTitle.setText(name == null ? "Empty Basket" : name + " Basket");
+        total.setText(String.format("Total: $%.2f", basket.getTotal()));
+    }
+
+    private void changeOccur(RecyclerView.Adapter a) {
+        a.notifyDataSetChanged();
+        setTitleAndTotal();
     }
 }
