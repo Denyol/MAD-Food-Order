@@ -9,7 +9,6 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import edu.curtin.danieltucker.foode.DBHelper;
-import edu.curtin.danieltucker.foode.DatabaseSchema;
 
 /**
  * Adapter to interface Restaurant and item objects from the Restaurant table in the database.
@@ -136,5 +135,27 @@ public class DBAdapter {
             Log.d("DBAdapter", String.format("Inserted item %s at row %d.",
                     item.getDescription(), itemCode));
         }
+    }
+
+    /**
+     * @param email    email
+     * @param password password
+     * @return user ID or -1 if none found.
+     */
+    public int login(String email, String password) {
+        String selection =  String.format("%s='%s' AND %s='%s'", DatabaseSchema.UsersTable.Cols.EMAIL,
+                email, DatabaseSchema.UsersTable.Cols.PASSWORD, password);
+
+        Cursor c = db.query(DatabaseSchema.UsersTable.NAME, new String[]{"userId"},
+                selection, null, null, null, null);
+
+        int result = -1;
+
+        if (c.moveToFirst())
+            result = c.getInt(0);
+
+        c.close();
+
+        return result;
     }
 }

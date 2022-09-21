@@ -1,4 +1,4 @@
-package edu.curtin.danieltucker.foode;
+package edu.curtin.danieltucker.foode.model;
 
 public class DatabaseSchema {
     public static class UsersTable {
@@ -6,8 +6,6 @@ public class DatabaseSchema {
 
         public static class Cols {
             public static final String ID = "userId";
-            public static final String FIRST_NAME = "firstName";
-            public static final String LAST_NAME = "lastName";
             public static final String EMAIL = "email";
             public static final String PASSWORD = "password";
         }

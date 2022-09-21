@@ -1,5 +1,6 @@
 package edu.curtin.danieltucker.foode;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         navBar = findViewById(R.id.navBar);
 
-        database = new DBHelper(this).getWritableDatabase();
+        database = new DBHelper(getApplicationContext()).getWritableDatabase();
 
         fm = getSupportFragmentManager();
 

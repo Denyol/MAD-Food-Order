@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import edu.curtin.danieltucker.foode.model.DatabaseSchema;
 import edu.curtin.danieltucker.foode.model.MenuItem;
 import edu.curtin.danieltucker.foode.model.Restaurant;
 import edu.curtin.danieltucker.foode.model.DBAdapter;
@@ -38,9 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + DatabaseSchema.UsersTable.NAME + "(" +
                 DatabaseSchema.UsersTable.Cols.ID + " INTEGER PRIMARY KEY," +
-                DatabaseSchema.UsersTable.Cols.FIRST_NAME + " TEXT," +
-                DatabaseSchema.UsersTable.Cols.LAST_NAME + " TEXT," +
-                DatabaseSchema.UsersTable.Cols.EMAIL + " TEXT NOT NULL," +
+                DatabaseSchema.UsersTable.Cols.EMAIL + " TEXT UNIQUE NOT NULL," +
                 DatabaseSchema.UsersTable.Cols.PASSWORD + " TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE " + DatabaseSchema.FoodTable.NAME + "(" +

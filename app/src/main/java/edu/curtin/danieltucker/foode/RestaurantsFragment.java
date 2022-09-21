@@ -43,7 +43,7 @@ public class RestaurantsFragment extends Fragment {
         RecyclerView recyclerView = v.findViewById(R.id.restaurantsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<Restaurant> restaurants = new DBAdapter(requireContext()).getRestaurants();
+        ArrayList<Restaurant> restaurants = new DBAdapter(requireActivity()).getRestaurants();
         recyclerView.setAdapter(new RestaurantListAdapter(restaurants, getContext(), this));
 
         return v;
