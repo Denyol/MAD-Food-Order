@@ -34,7 +34,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListAdapter.Ba
         public BasketViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            desc = itemView.findViewById(R.id.basketViewItemDesc);
+            desc = itemView.findViewById(R.id.orderRestTitle);
             imageView = itemView.findViewById(R.id.basketViewImage);
             price = itemView.findViewById(R.id.basketViewItemPrice);
             quantity = itemView.findViewById(R.id.basketViewItemCount);

@@ -1,6 +1,5 @@
 package edu.curtin.danieltucker.foode;
 
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,10 +7,11 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationBarView;
+
+import edu.curtin.danieltucker.foode.model.DBHelper;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -58,7 +58,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 break;
             case R.id.restaurants:
                 Log.d("MainActivity", "Switching to restaurants fragment");
-                fm.beginTransaction().replace(R.id.mainFrameLayout, RestaurantsFragment.class, null, "R"). commit();
+                fm.beginTransaction().replace(R.id.mainFrameLayout, RestaurantsFragment.class, null). commit();
+                break;
+            case R.id.orders:
+                Log.d("MainActivity", "Switching to order fragment");
+                fm.beginTransaction().replace(R.id.mainFrameLayout, OrdersFragment.class, null). commit();
                 break;
         }
     }

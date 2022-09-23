@@ -16,13 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.curtin.danieltucker.foode.model.DataViewModel;
 import edu.curtin.danieltucker.foode.model.Restaurant;
 
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
 
-    private ArrayList<Restaurant> restaurants;
+    private List<Restaurant> restaurants;
     private final Context context;
     private final FragmentManager fm;
     private DataViewModel dataViewModel;
@@ -59,7 +60,7 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         }
     }
 
-    public RestaurantListAdapter(ArrayList<Restaurant> restaurants, Context context, Fragment fragment) {
+    public RestaurantListAdapter(List<Restaurant> restaurants, Context context, Fragment fragment) {
         this.restaurants = restaurants;
         this.context = context;
         this.fm = fragment.getParentFragmentManager();
@@ -75,7 +76,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         LayoutInflater li = LayoutInflater.from(parent.getContext());
 
         View restaurantView = li.inflate(R.layout.restaurant_item_view, parent, false);
-
 
         return new RestaurantViewHolder(restaurantView);
     }

@@ -49,7 +49,8 @@ public class BasketViewModel extends ViewModel {
     }
 
     public void putItem(MenuItem item, int count) {
-        if (getRestaurantName() != item.getRestaurant().getName())
+        if (restaurant.getValue() == null
+                || !!getRestaurantName().equals(item.getRestaurant().getName()))
             setRestaurant(item.getRestaurant());
 
         getBasket().put(item, count);

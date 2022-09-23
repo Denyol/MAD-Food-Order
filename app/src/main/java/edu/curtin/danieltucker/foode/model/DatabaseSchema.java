@@ -34,7 +34,7 @@ public class DatabaseSchema {
     }
 
     public static class OrderTable {
-        public static final String NAME = "order";
+        public static final String NAME = "'order'";
 
         public static final class Cols {
             public static final String ID = "orderId";

@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
 
-import edu.curtin.danieltucker.foode.DBHelper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Adapter to interface Restaurant and item objects from the Restaurant table in the database.
@@ -30,7 +33,7 @@ public class DBAdapter {
      *
      * @return ArrayList containing Restaurant objects.
      */
-    public ArrayList<Restaurant> getRestaurants() {
+    public List<Restaurant> getRestaurants() {
         ArrayList<Restaurant> restaurants = new ArrayList<>();
         Cursor c = db.query(DatabaseSchema.RestaurantTable.NAME, null, null,
                 null, null, null, null);
@@ -48,12 +51,46 @@ public class DBAdapter {
         return restaurants;
     }
 
+    public List<Order> getOrders(int userId) {
+        HashMap<Integer, Order> orders = new HashMap<>();
+
+        String selection = null;
+
+        if (userId != -1)
+            selection = DatabaseSchema.OrderTable.Cols.USER + "=" + userId;
+        else
+            throw new IllegalArgumentException("-1 is not a valid user id");
+
+        Cursor c = db.query(DatabaseSchema.OrderTable.NAME, null, selection,
+                null, null, null, null);
+
+        while (c.moveToNext()) {
+            int orderId = c.getInt(0);
+            int itemCode = c.getInt(2);
+            int quantity = c.getInt(3);
+
+            MenuItem item = getItem(itemCode);
+
+            if (!orders.containsKey(orderId)) {
+                Order o = new Order(orderId, item.getRestaurant(), userId);
+                orders.put(orderId, o);
+            }
+
+            orders.get(orderId).addItem(item, quantity);
+        }
+
+        c.close();
+
+        return new ArrayList<>(orders.values());
+    }
+
     /**
      * Get a Restaurant object from a cursor.
      *
      * @param cursor
      * @return Returns null if a Restaurant could not be made from the cursor at current position.
      */
+    @Nullable
     private Restaurant getRestaurant(Cursor cursor) {
         Restaurant result = null;
         try {
@@ -72,6 +109,19 @@ public class DBAdapter {
         return result;
     }
 
+    private  Restaurant getRestaurant(int restId) {
+        Cursor c = db.query(DatabaseSchema.RestaurantTable.NAME, null,
+                DatabaseSchema.RestaurantTable.Cols.ID + "=" + restId,
+                null, null, null, null);
+
+        if (!c.moveToFirst()) {
+            c.close();
+            return null;
+        }
+
+        return getRestaurant(c);
+    }
+
     public ArrayList<MenuItem> getItemsForRestaurant(Restaurant restaurant) {
         ArrayList<MenuItem> items = new ArrayList<>();
         Cursor c = db.query(DatabaseSchema.FoodTable.NAME, null,
@@ -88,6 +138,26 @@ public class DBAdapter {
         c.close();
 
         return items;
+    }
+
+    public MenuItem getItem(int itemCode) {
+        Cursor c = db.query(DatabaseSchema.FoodTable.NAME, null,
+                DatabaseSchema.FoodTable.Cols.ID + "=" +itemCode,
+                null, null, null, null);
+
+        int restCode = -1;
+
+        if (c.moveToFirst())
+            restCode = c.getInt(1);
+        else {
+            c.close();
+            return null;
+        }
+
+        MenuItem i = getItem(c, getRestaurant(restCode));
+        c.close();
+
+        return i;
     }
 
     private MenuItem getItem(Cursor cursor, Restaurant restaurant) {
@@ -157,5 +227,52 @@ public class DBAdapter {
         c.close();
 
         return result;
+    }
+
+    /**
+     * Returns -1 if user already exists or user Id.
+     * @param email
+     * @param password
+     */
+    public int addUser(String email, String password) {
+        // See if email exists
+        Cursor c = db.query(DatabaseSchema.UsersTable.NAME, new String[]{"userId"},
+                DatabaseSchema.UsersTable.Cols.EMAIL + "=" + email,
+                null, null, null, null);
+
+        long result = -1;
+
+        if (c.moveToFirst())
+            result = c.getInt(0);
+
+        c.close();
+
+        if (result != -1) {
+            ContentValues v = new ContentValues();
+            v.put(DatabaseSchema.UsersTable.Cols.EMAIL, email);
+            v.put(DatabaseSchema.UsersTable.Cols.PASSWORD, password);
+
+            result = db.insert(DatabaseSchema.UsersTable.NAME, null, v);
+        }
+
+        return (int) result;
+    }
+
+    public void addOrder(int userId, Map<MenuItem, Integer> items) {
+        int orderID = items.hashCode();
+        for (MenuItem item : items.keySet()) {
+            addOrder(orderID, userId, item, items.get(item));
+        }
+    }
+
+    public void addOrder(int orderID, int userID, MenuItem item, Integer count) {
+        ContentValues v = new ContentValues();
+        v.put(DatabaseSchema.OrderTable.Cols.ID, orderID);
+        v.put(DatabaseSchema.OrderTable.Cols.USER, userID);
+        v.put(DatabaseSchema.OrderTable.Cols.QUANTITY, count);
+        v.put(DatabaseSchema.OrderTable.Cols.ITEM_CODE, item.getItemCode());
+
+        long res = db.insert(DatabaseSchema.OrderTable.NAME , null, v);
+        Log.d("DBAdapter", "addOrder item res " + res);
     }
 }

@@ -1,4 +1,4 @@
-package edu.curtin.danieltucker.foode;
+package edu.curtin.danieltucker.foode.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import edu.curtin.danieltucker.foode.R;
 import edu.curtin.danieltucker.foode.model.DatabaseSchema;
 import edu.curtin.danieltucker.foode.model.MenuItem;
 import edu.curtin.danieltucker.foode.model.Restaurant;
@@ -21,7 +22,7 @@ import edu.curtin.danieltucker.foode.model.DBAdapter;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String DB_NAME = "foode.db";
     private final Context context;
 
@@ -51,12 +52,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + DatabaseSchema.FoodTable.Cols.RESTAURANT + ") REFERENCES " +
                 DatabaseSchema.RestaurantTable.NAME + "(" + DatabaseSchema.RestaurantTable.Cols.ID + "))");
 
-        // Primary key subject to change
-        db.execSQL("CREATE TABLE '" + DatabaseSchema.OrderTable.NAME + "'(" +
-                DatabaseSchema.OrderTable.Cols.ID + " INTEGER PRIMARY KEY," +
+        db.execSQL("CREATE TABLE " + DatabaseSchema.OrderTable.NAME + "(" +
+                DatabaseSchema.OrderTable.Cols.ID + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.USER + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.ITEM_CODE + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.QUANTITY + " INTEGER DEFAULT 0," +
+                "PRIMARY KEY(" + DatabaseSchema.OrderTable.Cols.ID + "," +
+                DatabaseSchema.OrderTable.Cols.ITEM_CODE + "," +
+                DatabaseSchema.OrderTable.Cols.USER + ")," +
                 "FOREIGN KEY(" + DatabaseSchema.OrderTable.Cols.ITEM_CODE + ") REFERENCES " +
                 DatabaseSchema.FoodTable.NAME + "(" + DatabaseSchema.FoodTable.Cols.ID + "))");
 
@@ -124,7 +127,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop all tables, rebuild
 
-        db.execSQL("DROP TABLE '" + DatabaseSchema.OrderTable.NAME + "'");
+        db.execSQL("DROP TABLE " + DatabaseSchema.OrderTable.NAME);
         db.execSQL("DROP TABLE " + DatabaseSchema.FoodTable.NAME);
         db.execSQL("DROP TABLE " + DatabaseSchema.RestaurantTable.NAME);
         db.execSQL("DROP TABLE " + DatabaseSchema.UsersTable.NAME);

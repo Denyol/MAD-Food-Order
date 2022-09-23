@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import edu.curtin.danieltucker.foode.model.BasketViewModel;
+import edu.curtin.danieltucker.foode.model.DBAdapter;
 import edu.curtin.danieltucker.foode.model.DataViewModel;
 import edu.curtin.danieltucker.foode.model.DatabaseSchema;
 import edu.curtin.danieltucker.foode.model.Restaurant;
@@ -34,6 +35,7 @@ public class BasketFragment extends Fragment {
     private TextView basketTitle;
     private TextView total;
     private ActivityResultLauncher<Intent> resultLauncher;
+    private DBAdapter dbAdapter;
 
     public BasketFragment() {
         // Required empty public constructor
@@ -53,6 +55,8 @@ public class BasketFragment extends Fragment {
                                 Log.d("BasketFragment", "Got user ID result");
                             }
                         });
+
+        dbAdapter = new DBAdapter(requireActivity());
     }
 
     @Override
@@ -90,6 +94,8 @@ public class BasketFragment extends Fragment {
 
             // Launch log in/register activity
             resultLauncher.launch(new Intent(this.getContext(), LoginRegisterActivity.class));
+        } else {
+            dbAdapter.addOrder(appData.getCurrentUser(), basket.getBasket());
         }
     }
 

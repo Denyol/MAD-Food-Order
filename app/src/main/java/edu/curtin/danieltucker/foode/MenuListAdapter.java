@@ -35,7 +35,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
             super(view);
 
             imageView = view.findViewById(R.id.basketViewImage);
-            desc = view.findViewById(R.id.basketViewItemDesc);
+            desc = view.findViewById(R.id.orderRestTitle);
             price = view.findViewById(R.id.basketViewItemPrice);
         }
 
