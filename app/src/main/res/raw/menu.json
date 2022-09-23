@@ -10,6 +10,11 @@
           "price": 9.99
         },
         {
+          "desc": "Burrito 2",
+          "res": "burrito2",
+          "price": 7
+        },
+        {
           "desc": "Fish Taco",
           "res": "fish_taco",
           "price": 5.99
@@ -18,7 +23,75 @@
     },
     {
       "name": "Hungry Mike's",
-      "banner": "hungry_mike"
+      "banner": "hungry_mike",
+      "items": [
+        {
+          "desc": "Meat Burger",
+          "res": "burger",
+          "price": 8
+        },
+        {
+          "desc": "Meat Burger (GF)",
+          "res": "burger",
+          "price": 8
+        },
+        {
+          "desc": "Mushroom Burger",
+          "res": "burger2",
+          "price": 8
+        },
+        {
+          "desc": "Mushroom Burger (GF)",
+          "res": "burger2",
+          "price": 8
+        },
+        {
+          "desc": "Hash brown",
+          "res": "hash_brown",
+          "price": 2
+        },
+        {
+          "desc": "Fries",
+          "res": "fries",
+          "price": 3.55
+        },
+        {
+          "desc": "Fries (Unsalted)",
+          "res": "fries",
+          "price": 3.55
+        },
+        {
+          "desc": "Smoothie",
+          "res": "smoothie",
+          "price": 8.05
+        },
+        {
+          "desc": "Cone",
+          "res": "cone",
+          "price": 0.75
+        },
+        {
+          "desc": "Cola",
+          "res": "cola",
+          "price": 7.5
+        }
+      ]
+    },
+    {
+      "name": "Placeholder Store 3",
+      "banner": "store"
+    },
+    {
+      "name": "Placeholder Store 4",
+      "banner": "store"
+    },
+    {
+      "name": "Placeholder Store 5",
+      "banner": "store"
+    },
+    {
+      "name": "Placeholder Store 6",
+      "banner": "store"
     }
   ]
 }

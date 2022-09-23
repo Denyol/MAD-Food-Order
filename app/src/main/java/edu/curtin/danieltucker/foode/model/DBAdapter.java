@@ -230,30 +230,28 @@ public class DBAdapter {
     }
 
     /**
-     * Returns -1 if user already exists or user Id.
+     * Returns -1 if user already exists or user Id of new user.
      * @param email
      * @param password
      */
     public int addUser(String email, String password) {
         // See if email exists
+        String selection =  String.format("%s='%s'", DatabaseSchema.UsersTable.Cols.EMAIL, email);
+
         Cursor c = db.query(DatabaseSchema.UsersTable.NAME, new String[]{"userId"},
-                DatabaseSchema.UsersTable.Cols.EMAIL + "=" + email,
-                null, null, null, null);
+                selection, null, null, null, null);
 
         long result = -1;
 
-        if (c.moveToFirst())
-            result = c.getInt(0);
-
-        c.close();
-
-        if (result != -1) {
+        if (!c.moveToFirst()) { // If no row exists i.e. no email
             ContentValues v = new ContentValues();
             v.put(DatabaseSchema.UsersTable.Cols.EMAIL, email);
             v.put(DatabaseSchema.UsersTable.Cols.PASSWORD, password);
 
             result = db.insert(DatabaseSchema.UsersTable.NAME, null, v);
         }
+
+        c.close();
 
         return (int) result;
     }

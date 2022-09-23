@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import edu.curtin.danieltucker.foode.model.BasketViewModel;
 import edu.curtin.danieltucker.foode.model.DBAdapter;
 import edu.curtin.danieltucker.foode.model.DataViewModel;
@@ -36,6 +38,7 @@ public class BasketFragment extends Fragment {
     private TextView total;
     private ActivityResultLauncher<Intent> resultLauncher;
     private DBAdapter dbAdapter;
+    private BasketListAdapter basketListAdapter;
 
     public BasketFragment() {
         // Required empty public constructor
@@ -53,6 +56,8 @@ public class BasketFragment extends Fragment {
                                 appData.setCurrentUser(result.getData().getIntExtra(
                                         LoginRegisterActivity.USER_RESULT, -1));
                                 Log.d("BasketFragment", "Got user ID result");
+
+                                checkoutClicked();
                             }
                         });
 
@@ -68,7 +73,7 @@ public class BasketFragment extends Fragment {
         RecyclerView rv = view.findViewById(R.id.basketRecyclerView);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        BasketListAdapter basketListAdapter = new BasketListAdapter(this, requireContext());
+        basketListAdapter = new BasketListAdapter(this, requireContext());
         basketListAdapter.setObserve(this.getViewLifecycleOwner());
 
         basketTitle = view.findViewById(R.id.basketStoreText);
@@ -77,7 +82,7 @@ public class BasketFragment extends Fragment {
 
         rv.setAdapter(basketListAdapter);
 
-        basket.getBasketData().observe(getViewLifecycleOwner(), e -> changeOccur(basketListAdapter));
+        basket.getBasketData().observe(getViewLifecycleOwner(), e -> changeOccur());
         basket.getRestaurantData().observe(getViewLifecycleOwner(), e -> setTitleAndTotal());
 
         // Initialise title and checkout button.
@@ -89,14 +94,19 @@ public class BasketFragment extends Fragment {
     }
 
     private void checkoutClicked() {
-        if (appData.getCurrentUser() == -1) {
+        if (!basket.getBasket().isEmpty() && appData.getCurrentUser() == -1) {
             Log.d("BasketFragment", "Try login");
 
             // Launch log in/register activity
             resultLauncher.launch(new Intent(this.getContext(), LoginRegisterActivity.class));
-        } else {
+        } else if (!basket.getBasket().isEmpty()){
             dbAdapter.addOrder(appData.getCurrentUser(), basket.getBasket());
-        }
+            // reset basket
+            basket.resetBasket();
+
+            Snackbar.make(getView(), "Checkout success!", Snackbar.LENGTH_LONG).show();
+        } else
+            Snackbar.make(getView(), "Basket empty!", Snackbar.LENGTH_LONG).show();
     }
 
     private void setTitleAndTotal() {
@@ -105,8 +115,8 @@ public class BasketFragment extends Fragment {
         total.setText(String.format("Total: $%.2f", basket.getTotal()));
     }
 
-    private void changeOccur(RecyclerView.Adapter a) {
-        a.notifyDataSetChanged();
+    private void changeOccur() {
+        basketListAdapter.notifyDataSetChanged();
         setTitleAndTotal();
     }
 }

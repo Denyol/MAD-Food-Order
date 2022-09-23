@@ -45,7 +45,7 @@ public class LoginFragment extends Fragment {
             b.putString(EMAIL, emailText.getText().toString());
             b.putString(PASSWORD, passwordText.getText().toString());
             getParentFragmentManager().beginTransaction()
-                    .add(R.id.loginRegisterFrame, RegisterFragment.class, b)
+                    .replace(R.id.loginRegisterFrame, RegisterFragment.class, b)
                     .commit();
         });
 

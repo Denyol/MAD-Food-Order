@@ -1,5 +1,7 @@
 package edu.curtin.danieltucker.foode.model;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -48,12 +50,21 @@ public class BasketViewModel extends ViewModel {
         basket.setValue(this.basket.getValue());
     }
 
+    public void resetBasket() {
+        restaurant.setValue(null);
+        basket.setValue(new HashMap<>());
+    }
+
     public void putItem(MenuItem item, int count) {
         if (restaurant.getValue() == null
-                || !!getRestaurantName().equals(item.getRestaurant().getName()))
+                || !getRestaurantName().equals(item.getRestaurant().getName()))
             setRestaurant(item.getRestaurant());
 
         getBasket().put(item, count);
+
+        if (count == 0)
+            getBasket().remove(item);
+
         notifyBasketChanged();
     }
 

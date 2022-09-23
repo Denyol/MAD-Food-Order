@@ -22,7 +22,7 @@ import edu.curtin.danieltucker.foode.model.DBAdapter;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 2;
+    private static final int VERSION = 5;
     private static final String DB_NAME = "foode.db";
     private final Context context;
 
