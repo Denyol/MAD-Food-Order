@@ -2,7 +2,6 @@ package edu.curtin.danieltucker.foode;
 
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import edu.curtin.danieltucker.foode.model.BasketViewModel;
 import edu.curtin.danieltucker.foode.model.MenuItem;
+
 
 public class AddToBasketPopupWindow extends PopupWindow {
 

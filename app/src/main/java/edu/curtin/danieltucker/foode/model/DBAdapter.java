@@ -109,7 +109,7 @@ public class DBAdapter {
         return result;
     }
 
-    private  Restaurant getRestaurant(int restId) {
+    private Restaurant getRestaurant(int restId) {
         Cursor c = db.query(DatabaseSchema.RestaurantTable.NAME, null,
                 DatabaseSchema.RestaurantTable.Cols.ID + "=" + restId,
                 null, null, null, null);
@@ -129,6 +129,29 @@ public class DBAdapter {
                 null, null, null, null);
 
         while (c.moveToNext()) {
+            MenuItem i = getItem(c, restaurant);
+
+            if (i != null)
+                items.add(i);
+        }
+
+        c.close();
+
+        return items;
+    }
+
+    /**
+     * @return ArrayList of menu items random 10 from database
+     */
+    public ArrayList<MenuItem> getSpecialsItems() {
+        ArrayList<MenuItem> items = new ArrayList<>();
+        Cursor c = db.query(DatabaseSchema.FoodTable.NAME, null, null,
+                null, null, null, null, "10");
+
+        while (c.moveToNext()) {
+            int restId = c.getInt(1);
+            Restaurant restaurant = getRestaurant(restId);
+
             MenuItem i = getItem(c, restaurant);
 
             if (i != null)

@@ -1,7 +1,5 @@
 package edu.curtin.danieltucker.foode.model;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;

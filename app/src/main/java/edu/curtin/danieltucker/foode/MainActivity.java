@@ -4,7 +4,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         // No saved instance state, set default
         if (lastNav == -1)
-            switchFragment(R.id.restaurants);
+            switchFragment(R.id.navHome);
 
         navBar.setOnItemSelectedListener(this);
     }
@@ -58,6 +57,23 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
      */
     private void switchFragment(int navMenuItemId) {
         switch (navMenuItemId) {
+            case R.id.navHome:
+                Log.d("MainActivity", "Switching to home fragment");
+
+                // tabletFrame is null on non tablet layouts
+                if (findViewById(R.id.tabletFrameLayout) != null) {
+                    fm.beginTransaction()
+                            .replace(R.id.mainFrameLayout, SpecialsMenuFragment.class, null)
+                            .commit();
+                    fm.beginTransaction()
+                            .replace(R.id.tabletFrameLayout, RestaurantsFragment.class, null)
+                            .commit();
+                } else { // mobile layout
+                    fm.beginTransaction()
+                            .replace(R.id.mainFrameLayout, SpecialsMenuFragment.class, null)
+                            .commit();
+                }
+                break;
             case R.id.basket:
                 Log.d("MainActivity", "Switching to basket fragment");
                 fm.beginTransaction().replace(R.id.mainFrameLayout, BasketFragment.class, null).commit();
@@ -67,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
                 // tabletFrame is null on non tablet layouts
                 if (findViewById(R.id.tabletFrameLayout) != null) {
-                    fm.beginTransaction().
-                            replace(R.id.tabletFrameLayout, RestaurantsFragment.class, null)
+                    fm.beginTransaction()
+                            .replace(R.id.tabletFrameLayout, RestaurantsFragment.class, null)
                             .commit();
                 } else { // mobile layout
                     fm.beginTransaction()

@@ -9,20 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import edu.curtin.danieltucker.foode.model.BasketViewModel;
 import edu.curtin.danieltucker.foode.model.DBAdapter;
 import edu.curtin.danieltucker.foode.model.MenuItem;
 import edu.curtin.danieltucker.foode.model.Restaurant;
 
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuViewHolder> {
 
-    private ArrayList<MenuItem> menu;
-    private Restaurant restaurant;
+    protected ArrayList<MenuItem> menu;
     private final Context context;
-    private final MenuFragment menuFragment;
+    private final Fragment fragment;
+    private final LayoutInflater li;
+    private final BasketViewModel basketViewModel;
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,12 +55,19 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         }
     }
 
-    public MenuListAdapter(Restaurant restaurant, Context context, MenuFragment menuFragment) {
-        this.restaurant = restaurant;
+    public MenuListAdapter(Restaurant restaurant, Context context, Fragment fragment) {
         this.context = context;
-        this.menuFragment = menuFragment;
+        this.fragment = fragment;
 
-        this.menu = new DBAdapter(menuFragment.requireActivity()).getItemsForRestaurant(restaurant);
+        setMenu(restaurant);
+
+        li = LayoutInflater.from(fragment.getContext());
+        basketViewModel = new ViewModelProvider(fragment.requireActivity())
+                .get(BasketViewModel.class);
+    }
+
+    protected void setMenu(Restaurant restaurant) {
+        this.menu = new DBAdapter(fragment.requireActivity()).getItemsForRestaurant(restaurant);
     }
 
     @NonNull
@@ -74,7 +85,13 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MenuVi
         MenuItem item = menu.get(position);
         holder.bind(item);
 
-        holder.itemView.setOnClickListener(v -> menuFragment.createAddToBasketPopup(item));
+
+        holder.itemView.setOnClickListener(v -> {
+            View addToBasketWindow = li.inflate(R.layout.add_to_basket_view, null);
+
+            AddToBasketPopupWindow pw = new AddToBasketPopupWindow(addToBasketWindow, item, basketViewModel);
+            pw.createAddToBasketPopup(fragment.getView());
+        });
     }
 
     @Override

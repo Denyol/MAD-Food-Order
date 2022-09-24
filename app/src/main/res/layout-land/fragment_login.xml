@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RegisterFragment">
+    tools:context=".LoginFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/g1"
@@ -21,11 +21,11 @@
         app:layout_constraintGuide_percent="0.80" />
 
     <TextView
-        android:id="@+id/textRegister"
+        android:id="@+id/textSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Register"
+        android:text="Sign In"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@id/textView4"
@@ -41,7 +41,7 @@
         android:text="Email"
         app:layout_constraintBottom_toTopOf="@+id/signInEmail"
         app:layout_constraintStart_toStartOf="@id/g1"
-        app:layout_constraintTop_toBottomOf="@id/textRegister" />
+        app:layout_constraintTop_toBottomOf="@id/textSignIn" />
 
     <EditText
         android:id="@+id/signInEmail"
@@ -69,30 +69,53 @@
         android:id="@+id/signInPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPassword"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@+id/registerButton"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toStartOf="@+id/g2"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/signInButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Register"
-        app:layout_constraintBottom_toBottomOf="@id/guideline4"
+        android:layout_marginBottom="8dp"
+        android:text="Sign In"
+        app:layout_constraintBottom_toTopOf="@id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/g2"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/signInPassword" />
+
+    <TextView
+        android:id="@+id/signInSignUpText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Don't have an account? Sign Up"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@id/g2"
+        app:layout_constraintStart_toStartOf="@+id/g1"
+        app:layout_constraintTop_toBottomOf="@id/guideline3"
+        app:layout_constraintVertical_weight="2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.85" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

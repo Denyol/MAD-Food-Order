@@ -15,10 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import edu.curtin.danieltucker.foode.R;
-import edu.curtin.danieltucker.foode.model.DatabaseSchema;
-import edu.curtin.danieltucker.foode.model.MenuItem;
-import edu.curtin.danieltucker.foode.model.Restaurant;
-import edu.curtin.danieltucker.foode.model.DBAdapter;
+
 
 public class DBHelper extends SQLiteOpenHelper {
 
