@@ -24,7 +24,7 @@
         android:id="@+id/textSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Sign In"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#000000"
@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Email"
+        app:layout_constraintBottom_toTopOf="@+id/signInEmail"
         app:layout_constraintStart_toStartOf="@id/g1"
         app:layout_constraintTop_toBottomOf="@id/textSignIn" />
 
@@ -45,10 +46,10 @@
         android:id="@+id/signInEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toStartOf="@+id/g2"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -59,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Password"
+        app:layout_constraintBottom_toTopOf="@+id/signInPassword"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/signInEmail" />
 
@@ -66,10 +68,11 @@
         android:id="@+id/signInPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPassword"
         android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toStartOf="@+id/g2"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -78,8 +81,9 @@
         android:id="@+id/signInButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="Sign In"
+        app:layout_constraintBottom_toTopOf="@id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/g2"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/signInPassword" />
@@ -88,14 +92,28 @@
         android:id="@+id/signInSignUpText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:padding="10dp"
         android:text="Don't have an account? Sign Up"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/g2"
-        app:layout_constraintStart_toStartOf="@+id/g1" />
+        app:layout_constraintStart_toStartOf="@+id/g1"
+        app:layout_constraintTop_toBottomOf="@id/guideline3"
+        app:layout_constraintVertical_weight="2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
