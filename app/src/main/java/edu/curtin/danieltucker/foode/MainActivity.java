@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,8 +39,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             navBar.setSelectedItemId(lastNav);
         }
 
+        // No saved instance state, set default
         if (lastNav == -1)
-            fm.beginTransaction().replace(R.id.mainFrameLayout, RestaurantsFragment.class, null). commit();
+            switchFragment(R.id.restaurants);
 
         navBar.setOnItemSelectedListener(this);
     }
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         return true;
     }
 
+    /**
+     * Replaces the fragment in the main frame layout
+     * @param navMenuItemId resource ID of button in nav bar
+     */
     private void switchFragment(int navMenuItemId) {
         switch (navMenuItemId) {
             case R.id.basket:
@@ -58,7 +64,17 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
                 break;
             case R.id.restaurants:
                 Log.d("MainActivity", "Switching to restaurants fragment");
-                fm.beginTransaction().replace(R.id.mainFrameLayout, RestaurantsFragment.class, null). commit();
+
+                // tabletFrame is null on non tablet layouts
+                if (findViewById(R.id.tabletFrameLayout) != null) {
+                    fm.beginTransaction().
+                            replace(R.id.tabletFrameLayout, RestaurantsFragment.class, null)
+                            .commit();
+                } else { // mobile layout
+                    fm.beginTransaction()
+                            .replace(R.id.mainFrameLayout, RestaurantsFragment.class, null)
+                            .commit();
+                }
                 break;
             case R.id.orders:
                 Log.d("MainActivity", "Switching to order fragment");
