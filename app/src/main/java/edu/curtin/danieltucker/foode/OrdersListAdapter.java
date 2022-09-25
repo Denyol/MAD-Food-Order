@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -56,7 +57,15 @@ public class OrdersListAdapter extends RecyclerView.Adapter<OrdersListAdapter.Or
 
     @Override
     public void onBindViewHolder(@NonNull OrdersViewHolder holder, int position) {
-        holder.bind(orders.get(position));
+        Order order = orders.get(position);
+        holder.bind(order);
+
+        holder.itemView.setOnClickListener(l -> {
+            FragmentManager fm = f.getParentFragmentManager();
+            fm.beginTransaction()
+                    .replace(R.id.mainFrameLayout, OrderViewFragment.newInstance(order))
+                    .commit();
+        });
     }
 
     @Override

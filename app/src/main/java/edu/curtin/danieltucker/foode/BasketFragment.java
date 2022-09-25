@@ -34,9 +34,6 @@ public class BasketFragment extends Fragment {
     private DBAdapter dbAdapter;
     private BasketListAdapter basketListAdapter;
 
-    public BasketFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +84,7 @@ public class BasketFragment extends Fragment {
         return view;
     }
 
-    private void checkoutClicked() {
+    protected void checkoutClicked() {
         if (!basket.getBasket().isEmpty() && appData.getCurrentUser() == -1) {
             Log.d("BasketFragment", "Try login");
 

@@ -49,7 +49,7 @@ public class BasketListAdapter extends RecyclerView.Adapter<BasketListAdapter.Ba
         }
     }
 
-    public BasketListAdapter(BasketFragment basketFragment, Context context) {
+    public BasketListAdapter(Fragment basketFragment, Context context) {
         this.basket = new ViewModelProvider(basketFragment.requireActivity()).get(BasketViewModel.class);
         this.context = context;
         this.fragment = basketFragment;

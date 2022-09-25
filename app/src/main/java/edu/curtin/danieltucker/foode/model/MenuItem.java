@@ -2,9 +2,10 @@ package edu.curtin.danieltucker.foode.model;
 
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class MenuItem {
+public class MenuItem implements Serializable {
     private final int itemCode;
     private final float price;
     private final String description;

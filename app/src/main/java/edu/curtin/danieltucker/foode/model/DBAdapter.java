@@ -8,7 +8,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,15 +67,25 @@ public class DBAdapter {
         Cursor c = db.query(DatabaseSchema.OrderTable.NAME, null, selection,
                 null, null, null, null);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         while (c.moveToNext()) {
             int orderId = c.getInt(0);
             int itemCode = c.getInt(2);
             int quantity = c.getInt(3);
+            String dateString = c.getString(4);
+            Date date = null;
+
+            try {
+                date = sdf.parse(dateString);
+            } catch (ParseException e) {
+                Log.w("DBAdapter", e);
+            }
 
             MenuItem item = getItem(itemCode);
 
             if (!orders.containsKey(orderId)) {
-                Order o = new Order(orderId, item.getRestaurant(), userId);
+                Order o = new Order(orderId, item.getRestaurant(), userId, date);
                 orders.put(orderId, o);
             }
 
@@ -293,7 +306,7 @@ public class DBAdapter {
         v.put(DatabaseSchema.OrderTable.Cols.QUANTITY, count);
         v.put(DatabaseSchema.OrderTable.Cols.ITEM_CODE, item.getItemCode());
 
-        long res = db.insert(DatabaseSchema.OrderTable.NAME , null, v);
+        long res = db.insert(DatabaseSchema.OrderTable.NAME , "", v);
         Log.d("DBAdapter", "addOrder item res " + res);
     }
 }

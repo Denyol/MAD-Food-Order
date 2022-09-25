@@ -19,7 +19,7 @@ import edu.curtin.danieltucker.foode.R;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int VERSION = 5;
+    private static final int VERSION = 6;
     private static final String DB_NAME = "foode.db";
     private final Context context;
 
@@ -54,6 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 DatabaseSchema.OrderTable.Cols.USER + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.ITEM_CODE + " INTEGER NOT NULL," +
                 DatabaseSchema.OrderTable.Cols.QUANTITY + " INTEGER DEFAULT 0," +
+                DatabaseSchema.OrderTable.Cols.TIMESTAMP + "DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 "PRIMARY KEY(" + DatabaseSchema.OrderTable.Cols.ID + "," +
                 DatabaseSchema.OrderTable.Cols.ITEM_CODE + "," +
                 DatabaseSchema.OrderTable.Cols.USER + ")," +

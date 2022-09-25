@@ -2,9 +2,10 @@ package edu.curtin.danieltucker.foode.model;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     private final int storeCode;
     private final String name;

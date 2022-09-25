@@ -41,6 +41,7 @@ public class DatabaseSchema {
             public static final String USER = "userId";
             public static final String ITEM_CODE = "itemCode";
             public static final String QUANTITY = "quantity";
+            public static final String TIMESTAMP = "timestamp";
         }
     }
 }
